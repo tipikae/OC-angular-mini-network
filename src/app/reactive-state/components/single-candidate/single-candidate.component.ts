@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, take, tap } from 'rxjs';
 import { Candidate } from '../../models/candidate.model';
 import { CandidateService } from '../../services/candidate.service';
 
@@ -28,11 +28,23 @@ export class SingleCandidateComponent implements OnInit {
   }
 
   onRefuse() {
-  
+    this.candidate$.pipe(
+      take(1),
+      tap(candidate => {
+        this.candidateService.refuseCandidat(candidate.id);
+        this.onGoBack();
+      })
+    ).subscribe();
   }
 
   onHire() {
-  
+    this.candidate$.pipe(
+      take(1),
+      tap(candidate => {
+        this.candidateService.hireCandidat(candidate.id);
+        this.onGoBack();
+      })
+    ).subscribe();
   }
 
   private initObservables() {

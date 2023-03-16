@@ -46,11 +46,12 @@ export class CandidateService {
         );
     }
 
-    /*refuseCandidat(id: number): void {
+    // Modification pessimiste
+    refuseCandidat(id: number): void {
         this.setLoadingStatus(true);
         this.httpClient.delete(`${environment.apiUrl}/candidates/${id}`).pipe(
             delay(1000),
-            switchMap(() => this._candidates$),
+            switchMap(() => this.candidates$),
             take(1),
             map(candidates => candidates.filter(candidat => candidat.id !== id)),
             tap(candidates => {
@@ -58,7 +59,24 @@ export class CandidateService {
                 this.setLoadingStatus(false);
             })
         ).subscribe();
-    }*/
+    }
+
+    // Modification optimiste
+    hireCandidat(id: number): void {
+        this.candidates$.pipe(
+            take(1),
+            map(candidates => candidates
+                .map(candidate => candidate.id === id ? 
+                    { ...candidate, company: 'SnapFace Ltd' } :
+                    candidate
+                )),
+            tap(updatedCandidates => this._candidates$.next(updatedCandidates)),
+            delay(1000),
+            switchMap(updatedCandidates => this.httpClient.patch(
+                `${environment.apiUrl}/candidates/${id}`,
+                updatedCandidates.find(candidate => candidate.id === id)))
+        ).subscribe();
+    }
 
     private setLoadingStatus(loading: boolean) {
         this._loading$.next(loading);
