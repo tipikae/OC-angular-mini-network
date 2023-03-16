@@ -54,7 +54,7 @@ export class CandidateListComponent implements OnInit {
     this.candidates$ = combineLatest([
       search$,
       searchType$,
-      this.candidates$
+      this.candidateService.candidates$
     ]).pipe(
       map(([search, searchType, candidates]) => candidates.filter(candidate => candidate[searchType]
         .toLowerCase()
