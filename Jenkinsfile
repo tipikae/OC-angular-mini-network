@@ -1,11 +1,8 @@
 pipeline {
+  agent any
   stages {
     stage('Test') {
-      parallel {
-        stage('Unit tests') {
-            steps { sh 'ng test' }
-        }
-      }
+      steps { sh 'ng test' }
     }
  
     stage('Build') {
