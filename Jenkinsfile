@@ -7,11 +7,11 @@ pipeline {
     }
  
     stage('Test') {
-      steps { sh 'ng test' }
+      steps { sh 'npm run ng test' }
     }
  
     stage('Build') {
-      steps { sh 'ng build' }
+      steps { sh 'npm run ng build' }
     }
   }
 }
