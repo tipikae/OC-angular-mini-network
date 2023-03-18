@@ -15,7 +15,7 @@ pipeline {
     }
  
     stage('Copy') {
-      steps { sh 'cp -r /var/lib/jenkins/workspace/test2-pipeline/dist/awesome-components/ /var/www/html/awesome-components/' }
+      steps { sh 'cp -a /var/lib/jenkins/workspace/test2-pipeline/dist/awesome-components/. /var/www/html/awesome-components/' }
     }
   }
 }
