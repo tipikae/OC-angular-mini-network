@@ -13,5 +13,9 @@ pipeline {
     stage('Build') {
       steps { sh 'npm run build' }
     }
+ 
+    stage('Copy') {
+      steps { sh 'cp -r /var/lib/jenkins/workspace/test2-pipeline/dist/awesome-components/ /var/www/html/awesome-components/' }
+    }
   }
 }
